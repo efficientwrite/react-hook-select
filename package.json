@@ -2,7 +2,7 @@
   "name": "react-hook-select",
   "version": "1.1.0",
   "main": "dist/index.js",
-  "types": "ReactHookSelect.d.ts",
+  "types": "dist/ReactHookSelect.d.ts",
   "license": "MIT",
   "author": "Gokul Raam",
   "description": "A react select component using hooks",

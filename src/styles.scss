@@ -1,4 +1,3 @@
-$select-height: 50px;
 $select-border-color: #ccc;
 $select-primary-color: #023a70;
 $select-padding: 16px;
@@ -8,6 +7,7 @@ $label-active-color: #023a70;
 $label-background: #fff;
 $option-spacing: 8px 16px;
 $option-group-padding-left: 32px;
+$option-wrap-bg-color: #FFF;
 $option-group-color: rgb(143, 138, 138);
 $option-hover-bg-color: rgba(0, 0, 0, 0.2);
 $border-radius: 4px;
@@ -41,7 +41,6 @@ $chip-border: 0;
 }
 
 .select-wrapper {
-  // height: $select-height;
   border-radius: $border-radius;
   border: 1px solid $select-border-color;
   padding: $select-padding;
@@ -101,6 +100,8 @@ $chip-border: 0;
     flex-direction: column;
     animation: 0.2s linear scrolldown;
     box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.15);
+    background: $option-wrap-bg-color;  
+
     &.down {
       top: 100%;
     }
@@ -229,21 +230,21 @@ $chip-border: 0;
       }
       &.focus {
         .chip-remove {
-          background: lighten($color: $chip-background-color, $amount: 10%)
+          background: lighten($color: $chip-background-color, $amount: 10%);
         }
       }
       .chip-remove {
         padding-left: 4px;
         background-color: $chip-background-color;
         &:hover {
-          background: lighten($color: $chip-background-color, $amount: 10%)
+          background: lighten($color: $chip-background-color, $amount: 10%);
         }
         &:after {
           display: inline-block;
           content: "\00d7";
         }
       }
-      &+input {
+      & + input {
         font-size: $chip-font-size + $chip-between-spacing;
       }
     }

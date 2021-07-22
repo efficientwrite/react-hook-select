@@ -4,3 +4,4 @@ rollup.config.json
 tsconfig.json
 .gitignore
 yarn.lock
+rollup.config.js
