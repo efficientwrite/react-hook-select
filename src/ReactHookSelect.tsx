@@ -148,7 +148,7 @@ function ReactHookSelect(props: SelectProps) {
   const optionWrapperRef = useRef<HTMLUListElement>(null);
 
   const optionsWithFilter = useMemo(
-    () => getFilteredOptions(options),
+    () => getFilteredOptions(options, selectState.searchValue),
     [options, selectState.searchValue]
   );
   const showPlaceholder = selectState.value.length === 0 && !label;
@@ -174,7 +174,7 @@ function ReactHookSelect(props: SelectProps) {
     if (show) {
       beforeDropdownOpen();
     } else {
-      if (enableSearch && selectState.searchValue !== "") {
+      if (enableSearch) {
         selectDispatch({
           type: SELECT_ACTIONS.SET_SEARCH_VALUE,
           searchValue: "",
@@ -212,7 +212,6 @@ function ReactHookSelect(props: SelectProps) {
 
   useEffect(() => {
     getValue(selectState.value);
-    // eslint-disable-next-line
   }, [selectState.value]);
 
   useEffect(() => {
@@ -435,7 +434,7 @@ function ReactHookSelect(props: SelectProps) {
     if (nextOption !== undefined) {
       if (optionWrapperRef?.current) {
         const scrollPosition = getScrollPosition(nextOption, isUpKey);
-        if(scrollPosition) {
+        if (scrollPosition) {
           optionWrapperRef.current.scrollTop = scrollPosition;
         }
       }
@@ -460,15 +459,16 @@ function ReactHookSelect(props: SelectProps) {
           inputRef.current?.focus();
         }
       }
-    } else if (keyCode === 27) {
+    } else if (keyCode === 27 || keyCode === 9) {
+      event.preventDefault();
       handleSelectDropdownVisibility(false);
       inputRef.current?.focus();
     }
   }
 
-  function getFilteredOptions(options: Options[]) {
+  function getFilteredOptions(options: Options[], searchValue: string) {
     return options.filter((option) =>
-      option.label.match(selectState.searchValue)
+      option.label.match(searchValue)
     );
   }
 
@@ -483,7 +483,7 @@ function ReactHookSelect(props: SelectProps) {
     <div
       ref={selectRef}
       {...remainingSWP}
-      className={`select-wrapper ${isFocused} ${sWCN}`.trim()}
+      className={`select-wrapper ${isChipView ? "selected-chip-view" : ""} ${isFocused} ${sWCN}`.trim()}
       onClick={onClick}
     >
       <label
