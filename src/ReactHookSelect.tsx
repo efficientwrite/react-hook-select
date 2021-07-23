@@ -625,7 +625,7 @@ function ReactHookSelect(props: SelectProps) {
                     }
                   }}
                   className={`select-option ${optCN} ${group ? "option-group" : ""
-                    } ${disabled ? "disabled" : ""} ${selectState.currentOptionFocusValue === option.value
+                    } ${disabled ? "disabled" : ""} ${isSelected ? 'selected' : ''} ${selectState.currentOptionFocusValue === option.value
                       ? "hover"
                       : ""
                     }`.trim()}

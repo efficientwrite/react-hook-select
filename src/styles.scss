@@ -10,7 +10,8 @@ $option-group-padding-left: 32px !default;
 $option-wrap-bg-color: #FFF !default;
 $option-wrap-zIndex: 10 !default;
 $option-group-color: rgb(143, 138, 138) !default;
-$option-hover-bg-color: rgba(0, 0, 0, 0.2) !default;
+$option-hover-bg-color: rgba(0, 0, 0, 0.15) !default;
+$option-selected-bg-color: rgba(0, 0, 0, 0.2) !default;
 $border-radius: 4px !default;
 $dropdown-icon-color: #000 !default;
 $search-input-spacing: 16px !default;
@@ -145,6 +146,9 @@ $chip-border: 0 !default;
         .checkbox-icon {
           border-color: $checkbox-hover-unchecked-color;
         }
+      }
+      &.selected {
+        background: $option-selected-bg-color;
       }
       &.disabled {
         pointer-events: none;
