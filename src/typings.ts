@@ -8,6 +8,7 @@ export interface SelectState {
   searchValue: string;
   currentOptionFocusValue: string;
   focusedChipIndex: number;
+  controlled: boolean;
 }
 
 export type SelectAction =
@@ -18,11 +19,17 @@ export type SelectAction =
   | SetSearchValue
   | SetOptionFocus
   | SetFocusedChip
-  | SetDropdownStyles;
+  | SetDropdownStyles
+  | SetControlledValue;
 
 interface SetSingleValue {
   type: "SET_SINGLE_VALUE";
   value: string;
+}
+
+interface SetControlledValue {
+  type: "SET_CONTROLLED_VALUE";
+  value: string[];
 }
 
 interface UpdateMultipleValue {
@@ -65,39 +72,43 @@ export interface DropdownStyleProps {
 }
 
 export interface SelectProps {
-  selectWrapperProps?: React.HTMLAttributes<HTMLDivElement>
-  selectInputProps?: React.HTMLAttributes<HTMLInputElement>
-  searchInputProps?: React.HTMLAttributes<HTMLInputElement>
-  options: Options[]
-  defaultValue?: string[]
-  enableMultiple?: boolean
-  labelProps?: React.HTMLAttributes<HTMLLabelElement>
-  label?: string
-  placeholder?: string
-  getValue: (value: string[]) => void
-  enableSearch?: boolean
-  chipView?: boolean
-  chipViewEnableRemove?: boolean
-  renderOption?: (option: Options, isSelected: boolean) => React.ComponentType
+  selectWrapperProps?: React.HTMLAttributes<HTMLDivElement>;
+  selectInputProps?: React.HTMLAttributes<HTMLInputElement>;
+  searchInputProps?: React.HTMLAttributes<HTMLInputElement>;
+  options: Options[];
+  defaultValue?: string[];
+  value?: string[];
+  enableMultiple?: boolean;
+  labelProps?: React.HTMLAttributes<HTMLLabelElement>;
+  label?: string;
+  placeholder?: string;
+  getValue: (value: string[]) => void;
+  enableSearch?: boolean;
+  chipView?: boolean;
+  chipViewEnableRemove?: boolean;
+  renderOption?: (option: Options, isSelected: boolean) => React.ComponentType;
 }
 
 export interface Options {
-  optionProps?: React.HTMLAttributes<HTMLLIElement>
-  group?: boolean
-  label: string
-  value: string
-  disabled?: boolean
+  optionProps?: React.HTMLAttributes<HTMLLIElement>;
+  group?: boolean;
+  label: string;
+  value: string;
+  disabled?: boolean;
 }
 
 export interface ChipListProps {
-  values: string[]
-  chipViewEnableRemove: boolean
-  selectDispatch: React.Dispatch<SelectAction>
-  focusedChipIndex: number
+  values: string[];
+  originalValues: string[];
+  chipViewEnableRemove: boolean;
+  selectDispatch: React.Dispatch<SelectAction>;
+  focusedChipIndex: number;
+  controlled: boolean
+  getValue: (value: string[]) => void;
 }
 
 export interface CheckBoxListProps {
-  isSelected: boolean
-  label: string
-  showCheckBox: boolean
+  isSelected: boolean;
+  label: string;
+  showCheckBox: boolean;
 }

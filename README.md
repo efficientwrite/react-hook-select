@@ -40,7 +40,8 @@ import 'react-hook-select/index.scss'
 - `selectInputProps`: All props applicable to Input element.
 - `searchInputProps`: All props applicable to Input element.
 - `options`: Array of options, with possible values - label, value, disabled, group, optionProps - attributes set to li element.
-- `defaultValue`: Array of string, default values.
+- `defaultValue`: Array of string(for single/multiple select), default value.
+- `value`: Array of string(for single/multiple select), provide to be a controlled component.
 - `enableMultiple`: Should enable selecting multiple options.
 - `labelProps`: All props applicable to label element.
 - `label`: Label for the select element.
