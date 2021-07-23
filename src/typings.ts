@@ -98,7 +98,7 @@ export interface Options {
 }
 
 export interface ChipListProps {
-  values: string[];
+  values: Options[];
   originalValues: string[];
   chipViewEnableRemove: boolean;
   selectDispatch: React.Dispatch<SelectAction>;

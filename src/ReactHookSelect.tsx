@@ -85,22 +85,22 @@ function ChipList(props: ChipListProps) {
       {values.map((value, index) => {
         return (
           <div
-            key={value}
+            key={value.value}
             className={`chip-view ${focusedChipIndex === index ? "focus" : ""}`}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
             }}
           >
-            <span>{value}</span>
+            <span>{value.label}</span>
             {chipViewEnableRemove && (
               <span
                 className="chip-remove"
                 onClick={() => {
                   if (controlled) {
-                    getValue(updateMultipleValue(originalValues, value))
+                    getValue(updateMultipleValue(originalValues, value.value))
                   } else {
-                    selectDispatch({ type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE, value });
+                    selectDispatch({ type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE, value: value.value });
                   }
                 }}
               />
@@ -169,12 +169,12 @@ function ReactHookSelect(props: SelectProps) {
     [options, selectState.searchValue]
   );
 
-  const valuesWithinOptions = options.reduce((value, option) => {
+  const { valuesWithinOptions, chipValues } = options.reduce((value, option) => {
     if (selectState.value.indexOf(option.value) !== -1) {
-      return [...value, option.value]
+      return { valuesWithinOptions: [...value.valuesWithinOptions, option.label], chipValues: [...value.chipValues, option] }
     }
     return value
-  }, [] as string[])
+  }, { valuesWithinOptions: [] as string[], chipValues: [] as Options[] })
 
   const showPlaceholder = selectState.value.length === 0 && !label;
   const isChipView = enableMultiple && chipView && !showPlaceholder;
@@ -455,7 +455,7 @@ function ReactHookSelect(props: SelectProps) {
       const scrollPosition =
         optionWrapperRef.current?.clientHeight + scrolledValue;
       const targetElement = document.querySelector(
-        `li[data-value=${nextOption.value}]`
+        `li[data-value="${String(nextOption.value)}"]`
       ) as HTMLElement;
       const targetScrollPosition =
         targetElement?.offsetTop + targetElement?.clientHeight;
@@ -557,7 +557,7 @@ function ReactHookSelect(props: SelectProps) {
             getValue={getValue}
             originalValues={selectState.value}
             controlled={selectState.controlled}
-            values={valuesWithinOptions}
+            values={chipValues}
             chipViewEnableRemove={chipViewEnableRemove}
             selectDispatch={selectDispatch}
             focusedChipIndex={selectState.focusedChipIndex}
