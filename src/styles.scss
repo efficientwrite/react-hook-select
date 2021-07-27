@@ -7,7 +7,7 @@ $label-active-color: #023a70 !default;
 $label-background: #fff !default;
 $option-spacing: 8px 16px !default;
 $option-group-padding-left: 32px !default;
-$option-wrap-bg-color: #FFF !default;
+$option-wrap-bg-color: #fff !default;
 $option-wrap-zIndex: 10 !default;
 $option-group-color: rgb(143, 138, 138) !default;
 $option-hover-bg-color: rgba(0, 0, 0, 0.15) !default;
@@ -16,6 +16,10 @@ $border-radius: 4px !default;
 $dropdown-icon-color: #000 !default;
 $search-input-spacing: 16px !default;
 $checkbox-size: 20px !default;
+$checkbox-tick-size: (
+  "width": 4px,
+  "height": 10px
+) !default;
 $checkbox-tick-width: 4px !default;
 $checkbox-hover-unchecked-color: #fff !default;
 $chip-background-color: #282b2d !default;
@@ -103,7 +107,7 @@ $chip-border: 0 !default;
     animation: 0.2s linear scrolldown;
     box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.15);
     background: $option-wrap-bg-color;
-    z-index: $option-wrap-zIndex;  
+    z-index: $option-wrap-zIndex;
 
     &.down {
       top: 100%;
@@ -115,6 +119,15 @@ $chip-border: 0 !default;
     }
   }
 
+  &.focused {
+    .select-value-wrapper {
+      flex-wrap: wrap;
+      .select-value-display {
+        word-break: break-all;
+      }
+    }
+  }
+
   .select-value-wrapper {
     display: flex;
 
@@ -122,9 +135,9 @@ $chip-border: 0 !default;
       width: 2px;
     }
     .select-value-display {
+      pointer-events: none;
+      overflow: hidden;
       max-width: calc(100% - 2px);
-      display: flex;
-      flex-wrap: wrap;
     }
   }
 
@@ -173,7 +186,7 @@ $chip-border: 0 !default;
     border: solid $dropdown-icon-color;
     border-width: 0px 3px 3px 0px;
     padding: 3px;
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
     pointer-events: none;
   }
   .select-search-wrapper {
@@ -200,8 +213,8 @@ $chip-border: 0 !default;
       border: 0;
       &:after {
         content: "";
-        width: $checkbox-size/4;
-        height: $checkbox-size/2;
+        width: map-get($checkbox-tick-size, "width");
+        height: map-get($checkbox-tick-size, "hieght");
         border: solid #fff;
         border-width: 0px $checkbox-tick-width $checkbox-tick-width 0;
         position: absolute;

@@ -401,24 +401,26 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function onClick(event: any) {
-    if (!enableSearch) {
-      const toShowDropDown = !selectState.showDropdown;
-      toggleDropDown(toShowDropDown);
-      if (toShowDropDown && inputRef.current) {
-        inputRef.current.focus();
-      } else {
-        selectDispatch({ type: SELECT_ACTIONS.SET_FOCUS, isFocused: false });
-      }
-    } else if (
+    if (
       event.target === selectRef?.current ||
       event.target === inputRef?.current ||
       event.target.classList.contains("select-value-wrapper")
     ) {
-      const value =
-        selectState.isFocused && !selectState.showDropdown
-          ? true
-          : !(selectState.isFocused && selectState.showDropdown);
-      toggleDropDown(value);
+      if (!enableSearch) {
+        const toShowDropDown = !selectState.showDropdown;
+        toggleDropDown(toShowDropDown);
+        if (toShowDropDown && inputRef.current) {
+          inputRef.current.focus();
+        } else {
+          selectDispatch({ type: SELECT_ACTIONS.SET_FOCUS, isFocused: false });
+        }
+      } else {
+        const value =
+          selectState.isFocused && !selectState.showDropdown
+            ? true
+            : !(selectState.isFocused && selectState.showDropdown);
+        toggleDropDown(value);
+      }
     }
   }
 
