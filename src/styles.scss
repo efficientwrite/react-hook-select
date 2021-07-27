@@ -214,7 +214,7 @@ $chip-border: 0 !default;
       &:after {
         content: "";
         width: map-get($checkbox-tick-size, "width");
-        height: map-get($checkbox-tick-size, "hieght");
+        height: map-get($checkbox-tick-size, "height");
         border: solid #fff;
         border-width: 0px $checkbox-tick-width $checkbox-tick-width 0;
         position: absolute;
