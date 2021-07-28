@@ -195,7 +195,7 @@ function ReactHookSelect(props: SelectProps) {
     }
   }
 
-  function toggleDropDown(show: boolean, updateFocus = false) {
+  function toggleDropDown(show: boolean, notUpdateFocus = false) {
     if (show) {
       beforeDropdownOpen();
     } else {
@@ -214,7 +214,7 @@ function ReactHookSelect(props: SelectProps) {
       type: SELECT_ACTIONS.SET_DROPDOWN_VISIBILITY,
       showDropdown: show !== undefined ? show : !selectState.showDropdown,
     });
-    if (!updateFocus) {
+    if (!notUpdateFocus) {
       selectDispatch({
         type: SELECT_ACTIONS.SET_FOCUS,
         isFocused: show !== undefined ? show : !selectState.isFocused,
@@ -308,10 +308,7 @@ function ReactHookSelect(props: SelectProps) {
       }
       const newValue = !selectState.showDropdown;
       if ((enableMultiple && newValue) || !enableMultiple) {
-        selectDispatch({
-          type: SELECT_ACTIONS.SET_DROPDOWN_VISIBILITY,
-          showDropdown: newValue,
-        });
+        toggleDropDown(newValue, true)
       }
       if (keyCode === 13 && selectState.showDropdown) {
         if (selectState.currentOptionFocusValue !== "") {
