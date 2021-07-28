@@ -637,6 +637,8 @@ function ReactHookSelect(props: SelectProps) {
                       } else {
                         inputRef.current?.focus();
                       }
+                    } else {
+                      inputRef.current?.focus();
                     }
                   }}
                 >
