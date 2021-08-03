@@ -9,7 +9,7 @@
   "scripts": {
     "prepublishOnly": "rollup --config rollup.config.js"
   },
-  "repository": "git+https://github.com/gokulraam/react-hook-select/package/react-hook-select",
+  "repository": "https://github.com/gokulraam/react-hook-select/tree/master/package/react-hook-select",
   "keywords": [
     "react-component",
     "react-hooks",
