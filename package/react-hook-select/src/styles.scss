@@ -1,6 +1,6 @@
 $select-border-color: #ccc !default;
 $select-primary-color: #023a70 !default;
-$select-padding: 16px !default;
+$select-padding: 16px 32px 16px 16px !default;
 $select-label-font-size: 16px !default;
 $select-label-font-size-small: 12px !default;
 $label-active-color: #023a70 !default;
@@ -180,7 +180,7 @@ $chip-border: 0 !default;
 
   .dropdown-icon {
     position: absolute;
-    right: 0px;
+    right: 16px;
     top: 50%;
     transform: translateY(-45%) rotate(45deg);
     border: solid $dropdown-icon-color;
@@ -188,6 +188,9 @@ $chip-border: 0 !default;
     padding: 3px;
     margin-right: 0.3rem;
     pointer-events: none;
+  }
+  .option-dropdown + .dropdown-icon {
+    transform: rotate(225deg);
   }
   .select-search-wrapper {
     padding: $option-spacing;
