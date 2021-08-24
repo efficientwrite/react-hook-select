@@ -78,35 +78,39 @@ function RenderOptionWithCheckbox(props: CheckBoxListProps) {
 }
 
 function ChipList(props: ChipListProps) {
-  const { originalValues, values, chipViewEnableRemove, selectDispatch, focusedChipIndex, controlled, getValue } =
+  const { originalValues, values, chipViewEnableRemove, selectDispatch, focusedChipIndex, controlled, getValue, renderChip, isFocused } =
     props;
   return (
     <>
       {values.map((value, index) => {
-        return (
-          <div
-            key={value.value}
-            className={`chip-view ${focusedChipIndex === index ? "focus" : ""}`}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <span>{value.label}</span>
-            {chipViewEnableRemove && (
-              <span
-                className="chip-remove"
-                onClick={() => {
-                  if (controlled) {
-                    getValue(updateMultipleValue(originalValues, value.value))
-                  } else {
-                    selectDispatch({ type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE, value: value.value });
-                  }
-                }}
-              />
-            )}
-          </div>
-        );
+        if (typeof renderChip === 'function') {
+          return renderChip({ option: value, index, focusedChipIndex, isFocused })
+        } else {
+          return (
+            <div
+              key={value.value}
+              className={`chip-view ${focusedChipIndex === index ? "focus" : ""}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <span>{value.label}</span>
+              {chipViewEnableRemove && (
+                <span
+                  className="chip-remove"
+                  onClick={() => {
+                    if (controlled) {
+                      getValue(updateMultipleValue(originalValues, value.value))
+                    } else {
+                      selectDispatch({ type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE, value: value.value });
+                    }
+                  }}
+                />
+              )}
+            </div>
+          )
+        }
       })}
     </>
   )
@@ -128,6 +132,7 @@ function ReactHookSelect(props: SelectProps) {
     chipView = true,
     chipViewEnableRemove = true,
     renderOption,
+    renderChip,
     value,
   } = props;
 
@@ -422,13 +427,11 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function searchOptions(event: any) {
-    const value = event.target.value.replace(/\\/g, '\\');
+    const value = event.target.value
     if (searchInputOnChange) {
       searchInputOnChange(value);
     }
-    const filteredOptions = options.filter((option) =>
-      option.label.match(value)
-    );
+    const filteredOptions = getFilteredOptions(options, value);
     selectOption(filteredOptions);
     selectDispatch({ type: SELECT_ACTIONS.SET_SEARCH_VALUE, searchValue: value });
   }
@@ -521,8 +524,9 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function getFilteredOptions(options: Options[], searchValue: string) {
+    const searchRegex = new RegExp(searchValue, 'ig');
     return options.filter((option) =>
-      option.label.match(searchValue)
+      option.label.match(searchRegex)
     );
   }
 
@@ -554,6 +558,8 @@ function ReactHookSelect(props: SelectProps) {
         {isChipView ? (
           <ChipList
             getValue={getValue}
+            renderChip={renderChip}
+            isFocused={selectState.isFocused}
             originalValues={selectState.value}
             controlled={selectState.controlled}
             values={chipValues}

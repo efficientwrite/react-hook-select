@@ -87,6 +87,7 @@ export interface SelectProps {
   chipView?: boolean;
   chipViewEnableRemove?: boolean;
   renderOption?: (option: Options, isSelected: boolean) => React.ComponentType;
+  renderChip?: (props: CustomChipProps) => JSX.Element;
 }
 
 export interface Options {
@@ -105,8 +106,16 @@ export interface ChipListProps {
   focusedChipIndex: number;
   controlled: boolean
   getValue: (value: string[]) => void;
+  renderChip?: (props: CustomChipProps) => JSX.Element;
+  isFocused: boolean
 }
 
+export interface CustomChipProps {
+  option: Options
+  index: number
+  focusedChipIndex: number
+  isFocused: boolean
+}
 export interface CheckBoxListProps {
   isSelected: boolean;
   label: string;

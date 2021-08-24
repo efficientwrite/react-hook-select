@@ -42,6 +42,31 @@ export const ControlledMultipleSelection = () => {
   }} />;
 }
 
+function renderChip(props) {
+  const { option } = props
+  return <div style={{
+    padding: '10px 25px',
+    marginRight: '8px',
+    height: '50px',
+    fontSize: '16px',
+    borderRadius: '25px',
+    backgroundColor: '#f1f1f1'
+  }}>{option.label}</div>
+}
+
+export const SelectWithCustomChip = () => {
+  const [value, setValue] = useState([])
+
+  return <ReactHookSelect {...{
+    label: "select",
+    placeholder: "choose option",
+    value,
+    getValue: (value) => setValue(value),
+    options,
+    enableMultiple: true,
+  }} renderChip={renderChip} />;
+}
+
 SingleSelection.args = {
   label: "select",
   placeholder: "choose option",

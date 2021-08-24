@@ -66,6 +66,10 @@ $chip-border: 0 !default;
     top: 50%;
     transition: top 0.3s;
     background: $label-background;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: calc(100% - 50px);
     &.has-value,
     &.focused,
     &.dropdown-open {
@@ -124,6 +128,7 @@ $chip-border: 0 !default;
       flex-wrap: wrap;
       .select-value-display {
         word-break: break-all;
+        white-space: initial;
       }
     }
   }
@@ -138,6 +143,7 @@ $chip-border: 0 !default;
       pointer-events: none;
       overflow: hidden;
       max-width: calc(100% - 2px);
+      white-space: nowrap;
     }
   }
 
