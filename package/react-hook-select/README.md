@@ -51,3 +51,4 @@ import 'react-hook-select/index.scss'
 - `chipView`: Should show selected values as a chip, only for multi select.
 - `chipViewEnableRemove`: For chip view, enable showing close icon.
 - `renderOption`: Custom render function for option.
+- `renderChip`: Custom render function for chip.
