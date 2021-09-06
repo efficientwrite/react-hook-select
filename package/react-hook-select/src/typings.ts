@@ -86,7 +86,7 @@ export interface SelectProps {
   enableSearch?: boolean;
   chipView?: boolean;
   chipViewEnableRemove?: boolean;
-  renderOption?: (option: Options, isSelected: boolean) => React.ComponentType;
+  renderOption?: (option: Options, isSelected: boolean) => JSX.Element;
   renderChip?: (props: CustomChipProps) => JSX.Element;
 }
 
