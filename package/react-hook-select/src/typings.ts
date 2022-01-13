@@ -89,6 +89,7 @@ export interface SelectProps {
   renderOption?: (option: Options, isSelected: boolean) => JSX.Element;
   renderChip?: (props: CustomChipProps) => JSX.Element;
   dropdownOffset: DropdownOffset;
+  showPlaceholderInOptions: boolean;
 }
 
 export interface DropdownOffset {

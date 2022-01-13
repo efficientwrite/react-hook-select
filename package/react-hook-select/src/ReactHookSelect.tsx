@@ -161,6 +161,7 @@ function ReactHookSelect(props: SelectProps) {
     labelProps = {},
     label = "",
     placeholder = "",
+    showPlaceholderInOptions = true,
     getValue = () => {},
     enableSearch = false,
     chipView = true,
@@ -668,7 +669,7 @@ function ReactHookSelect(props: SelectProps) {
             className="select-option-wrapper"
             tabIndex={-1}
           >
-            {placeholder && (
+            {showPlaceholderInOptions && placeholder && (
               <li tabIndex={-1} className="disabled select-option">
                 {placeholder}
               </li>
