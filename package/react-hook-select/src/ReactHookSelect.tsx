@@ -1,23 +1,36 @@
-import React, { useCallback, useEffect, useReducer, useRef, useMemo } from "react";
-import { CheckBoxListProps, ChipListProps, Options, SelectAction, SelectProps, SelectState } from "./typings";
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useMemo,
+} from "react";
+import {
+  CheckBoxListProps,
+  ChipListProps,
+  Options,
+  SelectAction,
+  SelectProps,
+  SelectState,
+} from "./typings";
 
 enum SELECT_ACTIONS {
-  SET_SINGLE_VALUE = 'SET_SINGLE_VALUE',
-  UPDATE_MULTIPLE_VALUE = 'UPDATE_MULTIPLE_VALUE',
-  SET_FOCUS = 'SET_FOCUS',
-  SET_DROPDOWN_VISIBILITY = 'SET_DROPDOWN_VISIBILITY',
-  SET_DROPDOWN_STYLES = 'SET_DROPDOWN_STYLES',
-  SET_SEARCH_VALUE = 'SET_SEARCH_VALUE',
-  SET_OPTION_FOCUS = 'SET_OPTION_FOCUS',
-  SET_FOCUSED_CHIP = 'SET_FOCUSED_CHIP',
-  SET_CONTROLLED_VALUE = 'SET_CONTROLLED_VALUE'
+  SET_SINGLE_VALUE = "SET_SINGLE_VALUE",
+  UPDATE_MULTIPLE_VALUE = "UPDATE_MULTIPLE_VALUE",
+  SET_FOCUS = "SET_FOCUS",
+  SET_DROPDOWN_VISIBILITY = "SET_DROPDOWN_VISIBILITY",
+  SET_DROPDOWN_STYLES = "SET_DROPDOWN_STYLES",
+  SET_SEARCH_VALUE = "SET_SEARCH_VALUE",
+  SET_OPTION_FOCUS = "SET_OPTION_FOCUS",
+  SET_FOCUSED_CHIP = "SET_FOCUSED_CHIP",
+  SET_CONTROLLED_VALUE = "SET_CONTROLLED_VALUE",
 }
 
 function updateMultipleValue(values: string[], newValue: string) {
   const isOptionAvailable = values.includes(newValue);
   return isOptionAvailable
     ? values.filter((val) => val !== newValue)
-    : [...values, newValue]
+    : [...values, newValue];
 }
 
 function selectReducer(state: SelectState, action: SelectAction) {
@@ -78,18 +91,34 @@ function RenderOptionWithCheckbox(props: CheckBoxListProps) {
 }
 
 function ChipList(props: ChipListProps) {
-  const { originalValues, values, chipViewEnableRemove, selectDispatch, focusedChipIndex, controlled, getValue, renderChip, isFocused } =
-    props;
+  const {
+    originalValues,
+    values,
+    chipViewEnableRemove,
+    selectDispatch,
+    focusedChipIndex,
+    controlled,
+    getValue,
+    renderChip,
+    isFocused,
+  } = props;
   return (
     <>
       {values.map((value, index) => {
-        if (typeof renderChip === 'function') {
-          return renderChip({ option: value, index, focusedChipIndex, isFocused })
+        if (typeof renderChip === "function") {
+          return renderChip({
+            option: value,
+            index,
+            focusedChipIndex,
+            isFocused,
+          });
         } else {
           return (
             <div
               key={value.value}
-              className={`chip-view ${focusedChipIndex === index ? "focus" : ""}`}
+              className={`chip-view ${
+                focusedChipIndex === index ? "focus" : ""
+              }`}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -101,19 +130,24 @@ function ChipList(props: ChipListProps) {
                   className="chip-remove"
                   onClick={() => {
                     if (controlled) {
-                      getValue(updateMultipleValue(originalValues, value.value))
+                      getValue(
+                        updateMultipleValue(originalValues, value.value)
+                      );
                     } else {
-                      selectDispatch({ type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE, value: value.value });
+                      selectDispatch({
+                        type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE,
+                        value: value.value,
+                      });
                     }
                   }}
                 />
               )}
             </div>
-          )
+          );
         }
       })}
     </>
-  )
+  );
 }
 
 function ReactHookSelect(props: SelectProps) {
@@ -127,10 +161,11 @@ function ReactHookSelect(props: SelectProps) {
     labelProps = {},
     label = "",
     placeholder = "",
-    getValue = () => { },
+    getValue = () => {},
     enableSearch = false,
     chipView = true,
     chipViewEnableRemove = true,
+    dropdownOffset: { top: offsetTop = 100, bottom: offsetBottom = 100 } = {},
     renderOption,
     renderChip,
     value,
@@ -153,14 +188,18 @@ function ReactHookSelect(props: SelectProps) {
   } = searchInputProps;
 
   const [selectState, selectDispatch] = useReducer(selectReducer, {
-    value: Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [],
+    value: Array.isArray(value)
+      ? value
+      : Array.isArray(defaultValue)
+      ? defaultValue
+      : [],
     isFocused: false,
     showDropdown: false,
     dropdownProps: { drop: "down", style: {} },
     searchValue: "",
     currentOptionFocusValue: "",
     focusedChipIndex: -1,
-    controlled: value !== undefined
+    controlled: value !== undefined,
   });
 
   const selectRef = useRef<HTMLDivElement>(null);
@@ -174,12 +213,18 @@ function ReactHookSelect(props: SelectProps) {
     [options, selectState.searchValue]
   );
 
-  const { valuesWithinOptions, chipValues } = options.reduce((value, option) => {
-    if (selectState.value.indexOf(option.value) !== -1) {
-      return { valuesWithinOptions: [...value.valuesWithinOptions, option.label], chipValues: [...value.chipValues, option] }
-    }
-    return value
-  }, { valuesWithinOptions: [] as string[], chipValues: [] as Options[] })
+  const { valuesWithinOptions, chipValues } = options.reduce(
+    (value, option) => {
+      if (selectState.value.indexOf(option.value) !== -1) {
+        return {
+          valuesWithinOptions: [...value.valuesWithinOptions, option.label],
+          chipValues: [...value.chipValues, option],
+        };
+      }
+      return value;
+    },
+    { valuesWithinOptions: [] as string[], chipValues: [] as Options[] }
+  );
 
   const showPlaceholder = selectState.value.length === 0 && !label;
   const isChipView = enableMultiple && chipView && !showPlaceholder;
@@ -194,7 +239,11 @@ function ReactHookSelect(props: SelectProps) {
         type: SELECT_ACTIONS.SET_DROPDOWN_STYLES,
         drop: availableBottomSpace >= availableTopSpace ? "down" : "up",
         style: {
-          maxHeight: Math.max(availableBottomSpace, availableTopSpace) - 10,
+          maxHeight:
+            Math.max(
+              availableBottomSpace - offsetBottom,
+              availableTopSpace - offsetTop
+            ) - 10,
         },
       });
     }
@@ -242,7 +291,10 @@ function ReactHookSelect(props: SelectProps) {
 
   useEffect(() => {
     if (selectState.controlled && mounted.current) {
-      selectDispatch({ type: SELECT_ACTIONS.SET_CONTROLLED_VALUE, value: value! })
+      selectDispatch({
+        type: SELECT_ACTIONS.SET_CONTROLLED_VALUE,
+        value: value!,
+      });
     }
   }, [value, selectState.controlled]);
 
@@ -250,7 +302,7 @@ function ReactHookSelect(props: SelectProps) {
     if (!selectState.controlled && mounted.current) {
       getValue(selectState.value);
     }
-    mounted.current = true
+    mounted.current = true;
   }, [selectState.value, selectState.controlled]);
 
   useEffect(() => {
@@ -309,11 +361,11 @@ function ReactHookSelect(props: SelectProps) {
     const keyCode = event.keyCode;
     if (keyCode === 13 || keyCode === 32) {
       if (keyCode === 32) {
-        event.preventDefault()
+        event.preventDefault();
       }
       const newValue = !selectState.showDropdown;
       if ((enableMultiple && newValue) || !enableMultiple) {
-        toggleDropDown(newValue, true)
+        toggleDropDown(newValue, true);
       }
       if (keyCode === 13 && selectState.showDropdown) {
         if (selectState.currentOptionFocusValue !== "") {
@@ -330,9 +382,9 @@ function ReactHookSelect(props: SelectProps) {
       handleOptionsNavigationByArrow(keyCode);
     } else if (keyCode === 8 && selectState.value.length > 0 && isChipView) {
       if (selectState.focusedChipIndex !== -1) {
-        const valueToRemove = selectState.value[selectState.focusedChipIndex]
+        const valueToRemove = selectState.value[selectState.focusedChipIndex];
         if (selectState.controlled) {
-          getValue(updateMultipleValue(selectState.value, valueToRemove))
+          getValue(updateMultipleValue(selectState.value, valueToRemove));
         } else {
           selectDispatch({
             type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE,
@@ -344,9 +396,9 @@ function ReactHookSelect(props: SelectProps) {
           focusedChipIndex: -1,
         });
       } else {
-        const valueToRemove = selectState.value[selectState.value.length - 1]
+        const valueToRemove = selectState.value[selectState.value.length - 1];
         if (selectState.controlled) {
-          getValue(updateMultipleValue(selectState.value, valueToRemove))
+          getValue(updateMultipleValue(selectState.value, valueToRemove));
         } else {
           selectDispatch({
             type: SELECT_ACTIONS.UPDATE_MULTIPLE_VALUE,
@@ -354,7 +406,10 @@ function ReactHookSelect(props: SelectProps) {
           });
         }
       }
-    } else if ((keyCode === 37 || (keyCode === 39 && isChipView)) && chipViewEnableRemove) {
+    } else if (
+      (keyCode === 37 || (keyCode === 39 && isChipView)) &&
+      chipViewEnableRemove
+    ) {
       const totalLength = selectState.value.length;
       selectDispatch({
         type: SELECT_ACTIONS.SET_FOCUSED_CHIP,
@@ -363,15 +418,15 @@ function ReactHookSelect(props: SelectProps) {
             ? selectState.focusedChipIndex === -1
               ? totalLength - 1
               : selectState.focusedChipIndex - 1 >= 0
-                ? selectState.focusedChipIndex - 1
-                : selectState.focusedChipIndex
+              ? selectState.focusedChipIndex - 1
+              : selectState.focusedChipIndex
             : keyCode === 39
-              ? selectState.focusedChipIndex === -1
-                ? -1
-                : selectState.focusedChipIndex + 1 <= totalLength - 1
-                  ? selectState.focusedChipIndex + 1
-                  : -1
-              : -1,
+            ? selectState.focusedChipIndex === -1
+              ? -1
+              : selectState.focusedChipIndex + 1 <= totalLength - 1
+              ? selectState.focusedChipIndex + 1
+              : -1
+            : -1,
       });
     } else if (![9].includes(keyCode)) {
       // not run for tab key condition
@@ -427,13 +482,16 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function searchOptions(event: any) {
-    const value = event.target.value
+    const value = event.target.value;
     if (searchInputOnChange) {
       searchInputOnChange(value);
     }
     const filteredOptions = getFilteredOptions(options, value);
     selectOption(filteredOptions);
-    selectDispatch({ type: SELECT_ACTIONS.SET_SEARCH_VALUE, searchValue: value });
+    selectDispatch({
+      type: SELECT_ACTIONS.SET_SEARCH_VALUE,
+      searchValue: value,
+    });
   }
 
   function selectOption(options: Options[]) {
@@ -451,7 +509,10 @@ function ReactHookSelect(props: SelectProps) {
     }
   }
 
-  function getScrollPosition(nextOption: Options, isUpKey: boolean): number | undefined {
+  function getScrollPosition(
+    nextOption: Options,
+    isUpKey: boolean
+  ): number | undefined {
     if (optionWrapperRef.current) {
       const scrolledValue = optionWrapperRef.current?.scrollTop;
       const scrollPosition =
@@ -524,10 +585,8 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function getFilteredOptions(options: Options[], searchValue: string) {
-    const searchRegex = new RegExp(searchValue, 'ig');
-    return options.filter((option) =>
-      option.label.match(searchRegex)
-    );
+    const searchRegex = new RegExp(searchValue, "ig");
+    return options.filter((option) => option.label?.match(searchRegex));
   }
 
   const onDropdownMount = useCallback(() => {
@@ -535,19 +594,25 @@ function ReactHookSelect(props: SelectProps) {
   }, []);
 
   const isFocused = selectState.isFocused ? "focused" : "";
-  const selectedValue = showPlaceholder ? placeholder : valuesWithinOptions.join(",");
+  const selectedValue = showPlaceholder
+    ? placeholder
+    : valuesWithinOptions.join(",");
 
   return (
     <div
       ref={selectRef}
       {...remainingSWP}
-      className={`select-wrapper ${isChipView ? "selected-chip-view" : ""} ${isFocused} ${sWCN}`.trim()}
+      className={`select-wrapper ${
+        isChipView ? "selected-chip-view" : ""
+      } ${isFocused} ${sWCN}`.trim()}
       onClick={onClick}
     >
       <label
-        className={`select-label ${selectState.value.length > 0 ? "has-value" : ""
-          } ${lCN} ${selectState.showDropdown ? "dropdown-open" : ""
-          } ${isFocused}`.trim()}
+        className={`select-label ${
+          selectState.value.length > 0 ? "has-value" : ""
+        } ${lCN} ${
+          selectState.showDropdown ? "dropdown-open" : ""
+        } ${isFocused}`.trim()}
         {...remainingLP}
       >
         {label}
@@ -629,11 +694,15 @@ function ReactHookSelect(props: SelectProps) {
                       });
                     }
                   }}
-                  className={`select-option ${optCN} ${group ? "option-group" : ""
-                    } ${disabled ? "disabled" : ""} ${isSelected ? 'selected' : ''} ${selectState.currentOptionFocusValue === option.value
+                  className={`select-option ${optCN} ${
+                    group ? "option-group" : ""
+                  } ${disabled ? "disabled" : ""} ${
+                    isSelected ? "selected" : ""
+                  } ${
+                    selectState.currentOptionFocusValue === option.value
                       ? "hover"
                       : ""
-                    }`.trim()}
+                  }`.trim()}
                   {...remOP}
                   onClick={(event) => {
                     setValue(option.value, event);

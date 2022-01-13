@@ -88,8 +88,13 @@ export interface SelectProps {
   chipViewEnableRemove?: boolean;
   renderOption?: (option: Options, isSelected: boolean) => JSX.Element;
   renderChip?: (props: CustomChipProps) => JSX.Element;
+  dropdownOffset: DropdownOffset;
 }
 
+export interface DropdownOffset {
+  top: number;
+  bottom: number;
+}
 export interface Options {
   optionProps?: React.HTMLAttributes<HTMLLIElement>;
   group?: boolean;

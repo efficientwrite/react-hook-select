@@ -1,5 +1,6 @@
 $select-border-color: #ccc !default;
 $select-primary-color: #023a70 !default;
+$box-shadow: false !default;
 $select-padding: 16px 32px 16px 16px !default;
 $select-label-font-size: 16px !default;
 $select-label-font-size-small: 12px !default;
@@ -15,10 +16,11 @@ $option-selected-bg-color: rgba(0, 0, 0, 0.2) !default;
 $border-radius: 4px !default;
 $dropdown-icon-color: #000 !default;
 $search-input-spacing: 16px !default;
+$search-wrapper-spacing: $option-spacing !default;
 $checkbox-size: 20px !default;
 $checkbox-tick-size: (
   "width": 4px,
-  "height": 10px
+  "height": 10px,
 ) !default;
 $checkbox-tick-width: 4px !default;
 $checkbox-hover-unchecked-color: #fff !default;
@@ -29,6 +31,8 @@ $chip-between-spacing: 4px !default;
 $chip-font-size: 16px !default;
 $chip-border-radius: 4px !default;
 $chip-border: 0 !default;
+
+$wrap-content-on-focused: true !default;
 
 @keyframes scrolldown {
   0% {
@@ -55,7 +59,9 @@ $chip-border: 0 !default;
 
   &.focused {
     border: 1px solid $select-primary-color;
-    box-shadow: 0px 0px 0px 1px inset $select-primary-color;
+    @if $box-shadow {
+      box-shadow: 0px 0px 0px 1px inset $select-primary-color;
+    }
   }
 
   .select-label {
@@ -126,9 +132,11 @@ $chip-border: 0 !default;
   &.focused {
     .select-value-wrapper {
       flex-wrap: wrap;
-      .select-value-display {
-        word-break: break-all;
-        white-space: initial;
+      @if $wrap-content-on-focused {
+        .select-value-display {
+          word-break: break-all;
+          white-space: initial;
+        }
       }
     }
   }
@@ -142,6 +150,7 @@ $chip-border: 0 !default;
     .select-value-display {
       pointer-events: none;
       overflow: hidden;
+      text-overflow: ellipsis;
       max-width: calc(100% - 2px);
       white-space: nowrap;
     }
@@ -207,7 +216,9 @@ $chip-border: 0 !default;
       border: 1px solid $select-border-color;
       &:focus {
         border: 1px solid $select-primary-color;
-        box-shadow: 0px 0px 0px 1px inset $select-primary-color;
+        @if $box-shadow {
+          box-shadow: 0px 0px 0px 1px inset $select-primary-color;
+        }
       }
     }
   }
