@@ -165,7 +165,7 @@ function ReactHookSelect(props: SelectProps) {
     enableSearch = false,
     chipView = true,
     chipViewEnableRemove = true,
-    dropdownOffset: { top: offsetTop = 100, bottom: offsetBottom = 100 } = {},
+    dropdownOffset: { top: offsetTop = 0, bottom: offsetBottom = 0 } = {},
     renderOption,
     renderChip,
     value,
