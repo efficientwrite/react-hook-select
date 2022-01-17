@@ -233,17 +233,17 @@ function ReactHookSelect(props: SelectProps) {
   function beforeDropdownOpen() {
     const positionValues = selectRef.current?.getBoundingClientRect();
     if (positionValues) {
-      const availableTopSpace = positionValues?.top;
+      const availableTopSpace = positionValues?.top - offsetTop;
       const availableBottomSpace =
-        window.innerHeight - positionValues?.top - positionValues?.height;
+        window.innerHeight - positionValues?.top - positionValues?.height - offsetBottom;
       selectDispatch({
         type: SELECT_ACTIONS.SET_DROPDOWN_STYLES,
         drop: availableBottomSpace >= availableTopSpace ? "down" : "up",
         style: {
           maxHeight:
             Math.max(
-              availableBottomSpace - offsetBottom,
-              availableTopSpace - offsetTop
+              availableBottomSpace,
+              availableTopSpace
             ) - 10,
         },
       });
