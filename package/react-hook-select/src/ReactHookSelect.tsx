@@ -165,7 +165,9 @@ function ReactHookSelect(props: SelectProps) {
     getValue = () => {},
     enableSearch = false,
     chipView = true,
+    searchIcon = null,
     chipViewEnableRemove = true,
+    enableValuesOutsideOfOptions = false,
     dropdownOffset: { top: offsetTop = 0, bottom: offsetBottom = 0 } = {},
     renderOption,
     renderChip,
@@ -214,20 +216,36 @@ function ReactHookSelect(props: SelectProps) {
     [options, selectState.searchValue]
   );
 
-  const { valuesWithinOptions, chipValues } = options.reduce(
-    (value, option) => {
-      if (selectState.value.indexOf(option.value) !== -1) {
-        return {
-          valuesWithinOptions: [...value.valuesWithinOptions, option.label],
-          chipValues: [...value.chipValues, option],
-        };
+  const selectedDataWithOutsideOptions = selectState.value.map((data) => {
+    return (
+      options?.find((option) => option.value === data) ?? {
+        label: data,
+        value: data,
       }
-      return value;
-    },
-    { valuesWithinOptions: [] as string[], chipValues: [] as Options[] }
-  );
+    );
+  });
 
-  const showPlaceholder = selectState.value.length === 0 && !label;
+  const { valuesModified, chipValues } = enableValuesOutsideOfOptions
+    ? {
+        valuesModified: selectedDataWithOutsideOptions.map(
+          (data) => data.label
+        ),
+        chipValues: selectedDataWithOutsideOptions,
+      }
+    : options.reduce(
+        (value, option) => {
+          if (selectState.value.indexOf(option.value) !== -1) {
+            return {
+              valuesModified: [...value.valuesModified, option.label],
+              chipValues: [...value.chipValues, option],
+            };
+          }
+          return value;
+        },
+        { valuesModified: [] as string[], chipValues: [] as Options[] }
+      );
+
+  const showPlaceholder = valuesModified.length === 0 && !label;
   const isChipView = enableMultiple && chipView && !showPlaceholder;
 
   function beforeDropdownOpen() {
@@ -235,16 +253,15 @@ function ReactHookSelect(props: SelectProps) {
     if (positionValues) {
       const availableTopSpace = positionValues?.top - offsetTop;
       const availableBottomSpace =
-        window.innerHeight - positionValues?.top - positionValues?.height - offsetBottom;
+        window.innerHeight -
+        positionValues?.top -
+        positionValues?.height -
+        offsetBottom;
       selectDispatch({
         type: SELECT_ACTIONS.SET_DROPDOWN_STYLES,
         drop: availableBottomSpace >= availableTopSpace ? "down" : "up",
         style: {
-          maxHeight:
-            Math.max(
-              availableBottomSpace,
-              availableTopSpace
-            ) - 10,
+          maxHeight: Math.max(availableBottomSpace, availableTopSpace) - 10,
         },
       });
     }
@@ -597,7 +614,7 @@ function ReactHookSelect(props: SelectProps) {
   const isFocused = selectState.isFocused ? "focused" : "";
   const selectedValue = showPlaceholder
     ? placeholder
-    : valuesWithinOptions.join(",");
+    : valuesModified.join(",");
 
   return (
     <div
@@ -610,7 +627,7 @@ function ReactHookSelect(props: SelectProps) {
     >
       <label
         className={`select-label ${
-          selectState.value.length > 0 ? "has-value" : ""
+          valuesModified.length > 0 ? "has-value" : ""
         } ${lCN} ${
           selectState.showDropdown ? "dropdown-open" : ""
         } ${isFocused}`.trim()}
@@ -662,6 +679,7 @@ function ReactHookSelect(props: SelectProps) {
                 className={`select-search-input ${sICN}`.trim()}
                 {...remaingSearchInputProps}
               />
+              <span className="search-icon-wrapper">{searchIcon}</span>
             </div>
           )}
           <ul

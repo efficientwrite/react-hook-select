@@ -208,7 +208,16 @@ $wrap-content-on-focused: true !default;
     transform: rotate(225deg);
   }
   .select-search-wrapper {
-    padding: $option-spacing;
+    padding: $search-wrapper-spacing;
+    position: relative;
+    .search-icon-wrapper {
+      position: absolute;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+    }
     .select-search-input {
       width: 100%;
       padding: $search-input-spacing;

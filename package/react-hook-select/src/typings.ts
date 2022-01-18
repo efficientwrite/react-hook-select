@@ -88,8 +88,10 @@ export interface SelectProps {
   chipViewEnableRemove?: boolean;
   renderOption?: (option: Options, isSelected: boolean) => JSX.Element;
   renderChip?: (props: CustomChipProps) => JSX.Element;
-  dropdownOffset: DropdownOffset;
-  showPlaceholderInOptions: boolean;
+  dropdownOffset?: DropdownOffset;
+  showPlaceholderInOptions?: boolean;
+  enableValuesOutsideOfOptions?: boolean;
+  searchIcon?: JSX.Element;
 }
 
 export interface DropdownOffset {
@@ -110,17 +112,17 @@ export interface ChipListProps {
   chipViewEnableRemove: boolean;
   selectDispatch: React.Dispatch<SelectAction>;
   focusedChipIndex: number;
-  controlled: boolean
+  controlled: boolean;
   getValue: (value: string[]) => void;
   renderChip?: (props: CustomChipProps) => JSX.Element;
-  isFocused: boolean
+  isFocused: boolean;
 }
 
 export interface CustomChipProps {
-  option: Options
-  index: number
-  focusedChipIndex: number
-  isFocused: boolean
+  option: Options;
+  index: number;
+  focusedChipIndex: number;
+  isFocused: boolean;
 }
 export interface CheckBoxListProps {
   isSelected: boolean;
