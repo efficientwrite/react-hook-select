@@ -92,8 +92,12 @@ export interface SelectProps {
   showPlaceholderInOptions?: boolean;
   enableValuesOutsideOfOptions?: boolean;
   searchIcon?: JSX.Element;
+  renderDropDownIcon?: (props: DropDownIconProps) => JSX.Element;
 }
 
+export interface DropDownIconProps {
+  isDropDownOpen: boolean;
+}
 export interface DropdownOffset {
   top: number;
   bottom: number;

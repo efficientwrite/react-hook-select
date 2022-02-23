@@ -193,6 +193,15 @@ $wrap-content-on-focused: true !default;
     }
   }
 
+  .dropdown-icon-wrapper {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+  }
   .dropdown-icon {
     position: absolute;
     right: 16px;

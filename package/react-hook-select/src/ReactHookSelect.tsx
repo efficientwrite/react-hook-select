@@ -172,6 +172,7 @@ function ReactHookSelect(props: SelectProps) {
     renderOption,
     renderChip,
     value,
+    renderDropDownIcon,
   } = props;
 
   const {
@@ -753,7 +754,13 @@ function ReactHookSelect(props: SelectProps) {
           </ul>
         </div>
       )}
-      <span className="dropdown-icon" />
+      {typeof renderDropDownIcon === "function" ? (
+        <div className="dropdown-icon-wrapper">
+          {renderDropDownIcon({ isDropDownOpen: selectState.showDropdown })}
+        </div>
+      ) : (
+        <span className="dropdown-icon" />
+      )}
     </div>
   );
 }
