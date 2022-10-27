@@ -688,11 +688,20 @@ function ReactHookSelect(props: SelectProps) {
             className="select-option-wrapper"
             tabIndex={-1}
           >
-            {showPlaceholderInOptions && placeholder && (
-              <li tabIndex={-1} className="disabled select-option">
-                {placeholder}
-              </li>
-            )}
+            {showPlaceholderInOptions &&
+              placeholder &&
+              selectState.searchValue.length === 0 && (
+                <li tabIndex={-1} className="disabled select-option">
+                  {placeholder}
+                </li>
+              )}
+            {enableSearch &&
+              optionsWithFilter.length === 0 &&
+              selectState.searchValue.length > 0 && (
+                <li tabIndex={-1} className="disabled select-option no-result">
+                  No results found
+                </li>
+              )}
             {optionsWithFilter.map((option) => {
               const {
                 optionProps = {},
