@@ -31,7 +31,7 @@ $chip-between-spacing: 4px !default;
 $chip-font-size: 16px !default;
 $chip-border-radius: 4px !default;
 $chip-border: 0 !default;
-
+$select-close-icon-size: 12px !default;
 $wrap-content-on-focused: true !default;
 
 @keyframes scrolldown {
@@ -101,6 +101,7 @@ $wrap-content-on-focused: true !default;
 
   .select-input {
     cursor: pointer;
+    z-index: -1;
     padding: 0;
     border: 0;
     user-select: none;
@@ -144,6 +145,33 @@ $wrap-content-on-focused: true !default;
   .select-value-wrapper {
     display: flex;
 
+    &.has-clear {
+      position: relative;
+      cursor: pointer;
+      padding-right: 20px;
+      .close-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-45%);
+        width: $select-close-icon-size;
+        height: $select-close-icon-size;
+        &::before,
+        &::after {
+          content: " ";
+          transform: rotate(45deg);
+          position: absolute;
+          right: 5px;
+          top: 0;
+          height: $select-close-icon-size;
+          width: 2px;
+          background-color: #5d5c5c;
+        }
+        &::after {
+          transform: rotate(-45deg);
+        }
+      }
+    }
     .select-input {
       width: 2px;
     }

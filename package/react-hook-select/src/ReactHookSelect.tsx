@@ -24,6 +24,7 @@ enum SELECT_ACTIONS {
   SET_OPTION_FOCUS = "SET_OPTION_FOCUS",
   SET_FOCUSED_CHIP = "SET_FOCUSED_CHIP",
   SET_CONTROLLED_VALUE = "SET_CONTROLLED_VALUE",
+  CLEAR_VALUE = "CLEAR_VALUE",
 }
 
 function updateMultipleValue(values: string[], newValue: string) {
@@ -70,6 +71,11 @@ function selectReducer(state: SelectState, action: SelectAction) {
       return {
         ...state,
         focusedChipIndex: action.focusedChipIndex,
+      };
+    case SELECT_ACTIONS.CLEAR_VALUE:
+      return {
+        ...state,
+        value: [],
       };
     default:
       return state;
@@ -173,6 +179,7 @@ function ReactHookSelect(props: SelectProps) {
     renderChip,
     value,
     renderDropDownIcon,
+    canClearValue = false,
   } = props;
 
   const {
@@ -637,7 +644,9 @@ function ReactHookSelect(props: SelectProps) {
         {label}
       </label>
       <div
-        className={`select-value-wrapper ${isChipView ? "chip-wrapper" : ""}`}
+        className={`select-value-wrapper ${isChipView ? "chip-wrapper" : ""} ${
+          canClearValue ? "has-clear" : ""
+        }`}
       >
         {isChipView ? (
           <ChipList
@@ -663,6 +672,22 @@ function ReactHookSelect(props: SelectProps) {
           className={`select-input ${sCN}`.trim()}
           {...remainingSIP}
         />
+        {canClearValue && (
+          <div
+            className="close-icon"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (selectState.controlled) {
+                getValue([]);
+              } else {
+                selectDispatch({
+                  type: SELECT_ACTIONS.CLEAR_VALUE,
+                });
+              }
+            }}
+          />
+        )}
       </div>
       {selectState.showDropdown && (
         <div

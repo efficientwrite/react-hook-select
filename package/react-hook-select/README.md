@@ -10,10 +10,11 @@ yarn add react-hook-select
 
 ```js
 import React from "react";
-import ReactHookSelect from 'react-hook-select'
+import ReactHookSelect from "react-hook-select";
 
 function App() {
-  return <ReactHookSelect
+  return (
+    <ReactHookSelect
       label="select"
       enableMultiple={true}
       enableSearch={false}
@@ -26,14 +27,16 @@ function App() {
         { label: "b", value: "b" },
       ]}
     />
+  );
 }
 ```
 
 Use SCSS file directly and can override variables.
 
 ```js
-import 'react-hook-select/index.scss'
+import "react-hook-select/index.scss";
 ```
+
 ### Props
 
 - `selectWrapperProps`: All props applicable to DIV element.
@@ -52,3 +55,9 @@ import 'react-hook-select/index.scss'
 - `chipViewEnableRemove`: For chip view, enable showing close icon.
 - `renderOption`: Custom render function for option.
 - `renderChip`: Custom render function for chip.
+- `dropdownOffset`: Can provide two values top and bottom which specifies the gap between the top and bottom edge of screen and the select option wrapper.
+- `showPlaceholderInOptions`: Can enable/disable placeholder to be shown in list of options too
+- `enableValuesOutsideOfOptions`: Normal cases, only if the value is present in options it will be shown, this can be enabled to show even if option is not present in the list passed.
+- `searchIcon`: Icon for input box when search enabled.
+- `renderDropDownIcon`: Provide a custom dropdown icon instead of default.
+- `canClearValue`: Ability to clear selected value by showing 'X' icon to clear.

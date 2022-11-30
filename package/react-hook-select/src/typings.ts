@@ -20,7 +20,12 @@ export type SelectAction =
   | SetOptionFocus
   | SetFocusedChip
   | SetDropdownStyles
-  | SetControlledValue;
+  | SetControlledValue
+  | ClearValue;
+
+interface ClearValue {
+  type: "CLEAR_VALUE";
+}
 
 interface SetSingleValue {
   type: "SET_SINGLE_VALUE";
@@ -93,6 +98,7 @@ export interface SelectProps {
   enableValuesOutsideOfOptions?: boolean;
   searchIcon?: JSX.Element;
   renderDropDownIcon?: (props: DropDownIconProps) => JSX.Element;
+  canClearValue?: boolean;
 }
 
 export interface DropDownIconProps {
