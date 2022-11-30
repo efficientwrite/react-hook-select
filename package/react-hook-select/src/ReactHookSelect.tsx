@@ -645,7 +645,7 @@ function ReactHookSelect(props: SelectProps) {
       </label>
       <div
         className={`select-value-wrapper ${isChipView ? "chip-wrapper" : ""} ${
-          canClearValue ? "has-clear" : ""
+          canClearValue && selectState.value.length > 0 ? "has-clear" : ""
         }`}
       >
         {isChipView ? (
@@ -672,7 +672,7 @@ function ReactHookSelect(props: SelectProps) {
           className={`select-input ${sCN}`.trim()}
           {...remainingSIP}
         />
-        {canClearValue && (
+        {canClearValue && selectState.value.length > 0 && (
           <div
             className="close-icon"
             onClick={(e) => {
