@@ -5,6 +5,8 @@ import "../package/react-hook-select/src/styles.scss";
 export default {
   title: "Example/Select",
   component: ReactHookSelect,
+  parameters: {},
+  tags: ["autodocs"],
 };
 
 const options = [
@@ -16,7 +18,15 @@ const options = [
 
 const Template = (args) => <ReactHookSelect {...args} />;
 
-export const SingleSelection = Template.bind({});
+export const SingleSelection = {
+  args: {
+    label: "select",
+    placeholder: "choose option",
+    options,
+    enableMultiple: true,
+    chipView: false,
+  },
+};
 
 export const SingleSelectionWithSearch = Template.bind({});
 
@@ -31,7 +41,7 @@ export const WithOptGroup = Template.bind({});
 export const withClearOption = Template.bind({});
 
 export const ControlledMultipleSelection = () => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState<string[]>([]);
 
   return (
     <ReactHookSelect
@@ -67,7 +77,7 @@ function renderChip(props) {
 }
 
 export const SelectWithCustomChip = () => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState<string[]>([]);
 
   return (
     <ReactHookSelect
@@ -82,13 +92,6 @@ export const SelectWithCustomChip = () => {
       renderChip={renderChip}
     />
   );
-};
-
-SingleSelection.args = {
-  label: "select",
-  placeholder: "choose option",
-  defaultValue: [],
-  options,
 };
 
 SingleSelectionWithSearch.args = {
