@@ -180,6 +180,7 @@ function ReactHookSelect(props: SelectProps) {
     value,
     renderDropDownIcon,
     canClearValue = false,
+    customFilterMethod,
   } = props;
 
   const {
@@ -611,6 +612,9 @@ function ReactHookSelect(props: SelectProps) {
   }
 
   function getFilteredOptions(options: Options[], searchValue: string) {
+    if (customFilterMethod) {
+      return customFilterMethod(searchValue);
+    }
     const searchRegex = new RegExp(searchValue, "ig");
     return options.filter((option) => option.label?.match(searchRegex));
   }

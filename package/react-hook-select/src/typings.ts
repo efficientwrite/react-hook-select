@@ -99,6 +99,7 @@ export interface SelectProps {
   searchIcon?: JSX.Element;
   renderDropDownIcon?: (props: DropDownIconProps) => JSX.Element;
   canClearValue?: boolean;
+  customFilterMethod?: (value: string) => Options;
 }
 
 export interface DropDownIconProps {
