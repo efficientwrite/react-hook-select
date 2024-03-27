@@ -100,6 +100,10 @@ export interface SelectProps {
   renderDropDownIcon?: (props: DropDownIconProps) => JSX.Element;
   canClearValue?: boolean;
   customFilterMethod?: (value: string) => Options[];
+  /**
+   * Does not apply for chip view
+   */
+  showSelectedValue?: boolean;
 }
 
 export interface DropDownIconProps {

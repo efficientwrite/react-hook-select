@@ -181,6 +181,7 @@ function ReactHookSelect(props: SelectProps) {
     renderDropDownIcon,
     canClearValue = false,
     customFilterMethod,
+    showSelectedValue = true,
   } = props;
 
   const {
@@ -624,9 +625,10 @@ function ReactHookSelect(props: SelectProps) {
   }, []);
 
   const isFocused = selectState.isFocused ? "focused" : "";
-  const selectedValue = showPlaceholder
-    ? placeholder
-    : valuesModified.join(",");
+  const selectedValue =
+    showPlaceholder || !showSelectedValue
+      ? placeholder
+      : valuesModified.join(",");
 
   return (
     <div
